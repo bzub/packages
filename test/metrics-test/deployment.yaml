@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metrics-test
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - image: quay.io/freshtracks.io/avalanche
+        name: avalanche
+        ports:
+        - containerPort: 9001
