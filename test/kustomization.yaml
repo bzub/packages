@@ -5,10 +5,11 @@ resources:
 - inventory-template.yaml
 - ../prometheus/instance
 components:
-- ../prometheus/components/rbac/cluster-scope
-- ../prometheus/components/scrape-configs/kubelet
-- ../prometheus/components/scrape-configs/kubernetes-apiserver
+# - ../prometheus/components/rbac/cluster-scope
+# - ../prometheus/components/scrape-configs/kubelet
+# - ../prometheus/components/scrape-configs/kubernetes-apiserver
 - ../prometheus/components/rbac/namespace-scope
+- ../prometheus/components/scrape-configs/services
 commonLabels:
   app.kubernetes.io/name: my-prometheus
   app.kubernetes.io/instance: test
