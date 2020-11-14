@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+configMapGenerator:
+- name: prometheus-scrape-configs
+  behavior: merge
+  files:
+  - kubernetes-apiserver.yaml
+patches:
+- target:
+    kind: ClusterRole
+    name: prometheus # {"$kpt-set":"app"}
+  patch: |-
+    - op: add
+      path: /rules/-
+      value:
+        apiGroups:
+        - ""
+        resources:
+        - services
+        - endpoints
+        - pods
+        verbs:
+        - get
+        - list
+        - watch
+    - op: add
+      path: /rules/-
+      value:
+        nonResourceURLs:
+        - /metrics
+        verbs:
+        - get
