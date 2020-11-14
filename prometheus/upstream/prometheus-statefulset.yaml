@@ -11,56 +11,6 @@ spec:
     spec:
       serviceAccountName: prometheus
       terminationGracePeriodSeconds: 600
-      initContainers:
-      - name: config-merger
-        image: docker.io/library/alpine
-        command:
-        - /bin/sh
-        - -ec
-        - |-
-          config_file="/prometheus/config/prometheus.yml"
-          config_in_dir="/prometheus/config-in"
-
-          if [ -e "${config_file}" ]; then
-            echo "[INFO] ${config_file} already provided."
-            echo "[INFO] Skipping config merging operation."
-            exit 0
-          fi
-
-          sections="global rule_files scrape_configs alerting remote_write remote_read"
-
-          for section in ${sections}; do
-            files="$(ls "${config_in_dir}"/"${section}")"
-
-            if [ -z "${files}" ]; then
-              echo "no files"
-              continue
-            fi
-
-            echo "${section}:" >> "${config_file}"
-            for file in ${files}; do
-              echo "# Begin config from file ${file}" >> "${config_file}"
-              cat "${config_in_dir}/${section}/${file}" >> "${config_file}"
-              echo >> "${config_file}"
-              echo "# End config from file ${file}" >> "${config_file}"
-            done
-          done
-          cat "${config_file}"
-        volumeMounts:
-        - name: prometheus-global
-          mountPath: /prometheus/config-in/global
-        - name: prometheus-rule-files
-          mountPath: /prometheus/config-in/rule_files
-        - name: prometheus-scrape-configs
-          mountPath: /prometheus/config-in/scrape_configs
-        - name: prometheus-alerting
-          mountPath: /prometheus/config-in/alerting
-        - name: prometheus-remote-write
-          mountPath: /prometheus/config-in/remote_write
-        - name: prometheus-remote-read
-          mountPath: /prometheus/config-in/remote_read
-        - name: config
-          mountPath: /prometheus/config
       containers:
       - name: prometheus
         image: docker.io/prom/prometheus
@@ -94,36 +44,6 @@ spec:
       volumes:
       - name: data
       - name: config
-      - name: prometheus-global
-        projected:
-          sources:
-          - configMap:
-              name: prometheus-global
-      - name: prometheus-rule-files
-        projected:
-          sources:
-          - configMap:
-              name: prometheus-rule-files
-      - name: prometheus-scrape-configs
-        projected:
-          sources:
-          - configMap:
-              name: prometheus-scrape-configs
-      - name: prometheus-alerting
-        projected:
-          sources:
-          - configMap:
-              name: prometheus-alerting
-      - name: prometheus-remote-write
-        projected:
-          sources:
-          - configMap:
-              name: prometheus-remote-write
-      - name: prometheus-remote-read
-        projected:
-          sources:
-          - configMap:
-              name: prometheus-remote-read
       securityContext:
         fsGroup: 2000
         runAsNonRoot: true
