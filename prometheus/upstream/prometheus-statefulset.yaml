@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: prometheus # {"$kpt-set":"app"}
+  name: prometheus
 spec:
-  serviceName: prometheus # {"$kpt-set":"app"}
+  serviceName: prometheus
   podManagementPolicy: Parallel
   updateStrategy:
     type: RollingUpdate
   template:
     spec:
-      serviceAccountName: prometheus # {"$kpt-set":"app"}
+      serviceAccountName: prometheus
       terminationGracePeriodSeconds: 600
       initContainers:
       - name: merge-configs
@@ -62,7 +62,7 @@ spec:
         - name: config
           mountPath: /prometheus/config
       containers:
-      - name: prometheus # {"$kpt-set":"app"}
+      - name: prometheus
         image: docker.io/prom/prometheus
         command:
         - /bin/prometheus

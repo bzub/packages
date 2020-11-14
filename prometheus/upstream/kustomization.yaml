@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: default # {"$kpt-set":"namespace"}
+namespace: default
 resources:
 - prometheus-statefulset.yaml
 - prometheus-service.yaml
@@ -9,7 +9,7 @@ images:
 - name: docker.io/prom/prometheus
   newTag: v2.22.1
 commonLabels:
-  app.kubernetes.io/name: prometheus # {"$kpt-set":"app"}
+  app.kubernetes.io/name: prometheus
   app.kubernetes.io/instance: upstream
 configMapGenerator:
 - name: prometheus-global

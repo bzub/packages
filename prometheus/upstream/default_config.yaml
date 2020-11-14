@@ -2,16 +2,16 @@ global:
   scrape_interval: 15s
   evaluation_interval: 30s
 scrape_configs:
-- job_name: prometheus # {"$kpt-set":"app"}
+- job_name: prometheus
   kubernetes_sd_configs:
   - role: endpoints
     namespaces:
       names:
-      - default # {"$kpt-set":"namespace"}
+      - default
   relabel_configs:
   - source_labels: [__meta_kubernetes_service_name]
     action: keep
-    regex: prometheus # {"$kpt-set":"app"}
+    regex: prometheus
   - action: labelmap
     regex: __meta_kubernetes_service_label_(.+)
   - source_labels: [__meta_kubernetes_namespace]

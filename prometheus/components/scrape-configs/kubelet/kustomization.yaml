@@ -8,7 +8,7 @@ configMapGenerator:
 patches:
 - target:
     kind: ClusterRole
-    name: prometheus # {"$kpt-set":"app"}
+    name: prometheus
   patch: |-
     - op: add
       path: /rules/-

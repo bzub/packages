@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: prometheus # {"$kpt-set":"app"}
+  name: prometheus
 spec:
   sessionAffinity: ClientIP
   ports:
