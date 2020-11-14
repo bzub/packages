@@ -4,7 +4,7 @@ configMapGenerator:
 - name: prometheus-scrape-configs
   behavior: merge
   files:
-  - kubelet.yaml
+  - nodes-direct.yaml
 patches:
 - target:
     kind: ClusterRole

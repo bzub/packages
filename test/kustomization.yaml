@@ -2,12 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: example
 resources:
-- inventory-template.yaml
-- ../prometheus/instance
+- prometheus
 - metrics-test
-components:
-- ../prometheus/components/rbac/cluster-scope
-# - ../prometheus/components/scrape-configs/kubelet
-# - ../prometheus/components/scrape-configs/kubernetes-apiserver
-# - ../prometheus/components/rbac/namespace-scope
-- ../prometheus/components/scrape-configs/services
+- inventory-template.yaml
+commonLabels:
+  app.kubernetes.io/instance: test

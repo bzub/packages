@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../prometheus/instance
+components:
+- ../../prometheus/components/rbac/cluster-scope
+# - ../../prometheus/components/scrape-configs/nodes/direct
+- ../../prometheus/components/scrape-configs/nodes/proxy
+- ../../prometheus/components/scrape-configs/kubernetes-apiserver
+# - ../../prometheus/components/rbac/namespace-scope
+- ../../prometheus/components/scrape-configs/services
+commonLabels:
+  app.kubernetes.io/name: prometheus
