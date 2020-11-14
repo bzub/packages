@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+- path: config-merger-patch.yaml
+configMapGenerator:
+- name: prometheus-global
+- name: prometheus-rule-files
+- name: prometheus-scrape-configs
+- name: prometheus-alerting
+- name: prometheus-remote-write
+- name: prometheus-remote-read

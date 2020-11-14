@@ -3,14 +3,8 @@ kind: StatefulSet
 metadata:
   name: prometheus
 spec:
-  serviceName: prometheus
-  podManagementPolicy: Parallel
-  updateStrategy:
-    type: RollingUpdate
   template:
     spec:
-      serviceAccountName: prometheus
-      terminationGracePeriodSeconds: 600
       initContainers:
       - name: config-merger
         image: docker.io/library/alpine
@@ -61,39 +55,7 @@ spec:
           mountPath: /prometheus/config-in/remote_read
         - name: config
           mountPath: /prometheus/config
-      containers:
-      - name: prometheus
-        image: docker.io/prom/prometheus
-        command:
-        - /bin/prometheus
-        - --config.file=/prometheus/config/prometheus.yml
-        - --web.console.templates=/etc/prometheus/consoles
-        - --web.console.libraries=/etc/prometheus/console_libraries
-        - --storage.tsdb.path=/prometheus/data
-        - --storage.tsdb.retention.time=24h
-        - --storage.tsdb.no-lockfile
-        ports:
-        - name: web
-          protocol: TCP
-          containerPort: 9090
-        volumeMounts:
-        - name: data
-          mountPath: /prometheus/data
-        - name: config
-          mountPath: /prometheus/config
-        livenessProbe:
-          httpGet:
-            port: web
-            path: /-/healthy
-            scheme: HTTP
-        readinessProbe:
-          httpGet:
-            port: web
-            path: /-/ready
-            scheme: HTTP
       volumes:
-      - name: data
-      - name: config
       - name: prometheus-global
         projected:
           sources:
@@ -124,7 +86,3 @@ spec:
           sources:
           - configMap:
               name: prometheus-remote-read
-      securityContext:
-        fsGroup: 2000
-        runAsNonRoot: true
-        runAsUser: 1000

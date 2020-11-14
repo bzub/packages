@@ -7,10 +7,5 @@ resources:
 images:
 - name: docker.io/prom/prometheus
   newTag: v2.22.1
-configMapGenerator:
-- name: prometheus-global
-- name: prometheus-rule-files
-- name: prometheus-scrape-configs
-- name: prometheus-alerting
-- name: prometheus-remote-write
-- name: prometheus-remote-read
+- name: docker.io/library/alpine
+  newTag: 3.12.1

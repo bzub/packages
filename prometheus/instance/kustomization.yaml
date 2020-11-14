@@ -3,18 +3,3 @@ kind: Kustomization
 resources:
 - ../upstream
 namespace: example
-configMapGenerator:
-- name: prometheus-global
-  behavior: merge
-  literals:
-  - |-
-    defaults.yaml=
-       scrape_interval: 15s
-- name: prometheus-scrape-configs
-  behavior: merge
-  literals:
-  - |-
-    prometheus.yaml=
-    - job_name: 'prometheus'
-      static_configs:
-      - targets: ['localhost:9090']
