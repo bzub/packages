@@ -3,10 +3,9 @@
 - job_name: 'kubernetes-service-endpoints'
   kubernetes_sd_configs:
   - role: endpoints
-    # TODO: Make this optional/configurable?
     # namespaces:
     #   names:
-    #     - example
+    #   - example-namespace
   relabel_configs:
   # Scrape only endpoints that have "prometheus.io/should_be_scraped = true"
   # annotation.
