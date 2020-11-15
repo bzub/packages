@@ -44,6 +44,10 @@ spec:
       volumes:
       - name: data
       - name: config
+        projected:
+          sources:
+          - configMap:
+              name: prometheus
       securityContext:
         fsGroup: 2000
         runAsNonRoot: true

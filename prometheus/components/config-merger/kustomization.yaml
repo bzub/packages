@@ -9,3 +9,5 @@ configMapGenerator:
 - name: prometheus-alerting
 - name: prometheus-remote-write
 - name: prometheus-remote-read
+patches:
+  - path: config-merger-patch.yaml

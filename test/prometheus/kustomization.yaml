@@ -3,27 +3,38 @@ kind: Kustomization
 resources:
 - ../../prometheus/instance
 components:
-- ../../prometheus/components/config-merger
+# - ../../prometheus/components/config-merger
 - ../../prometheus/components/rbac/cluster-scope
-# - ../../prometheus/components/scrape-configs/nodes/direct
-- ../../prometheus/components/scrape-configs/nodes/proxy
-- ../../prometheus/components/scrape-configs/kubernetes-apiserver
 # - ../../prometheus/components/rbac/namespace-scope
-- ../../prometheus/components/scrape-configs/services
+# - ../../prometheus/components/scrape-configs/nodes/direct
+# - ../../prometheus/components/scrape-configs/nodes/proxy
+# - ../../prometheus/components/scrape-configs/kubernetes-apiserver
+# - ../../prometheus/components/scrape-configs/services
 commonLabels:
   app.kubernetes.io/name: prometheus
 configMapGenerator:
-- name: prometheus-global
-  behavior: merge
+- name: prometheus
+  behavior: replace
   literals:
-  - |-
-    defaults.yaml=
-       scrape_interval: 15s
-- name: prometheus-scrape-configs
-  behavior: merge
-  literals:
-  - |-
-    prometheus.yaml=
-    - job_name: 'prometheus'
-      static_configs:
-      - targets: ['localhost:9090']
+    - |-
+      prometheus.yml=
+      global:
+        scrape_interval: 15s
+      scrape_configs:
+      - job_name: 'prometheus'
+        static_configs:
+        - targets: ['localhost:9090']
+# - name: prometheus-global
+#   behavior: merge
+#   literals:
+#   - |-
+#     defaults.yaml=
+#        scrape_interval: 15s
+# - name: prometheus-scrape-configs
+#   behavior: merge
+#   literals:
+#   - |-
+#     prometheus.yaml=
+#     - job_name: 'prometheus'
+#       static_configs:
+#       - targets: ['localhost:9090']

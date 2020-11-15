@@ -9,3 +9,8 @@ images:
   newTag: v2.22.1
 - name: docker.io/library/alpine
   newTag: 3.12.1
+configMapGenerator:
+- name: prometheus
+  literals:
+  - |-
+    prometheus.yml=

@@ -39,7 +39,6 @@ spec:
               echo "# End config from file ${file}" >> "${config_file}"
             done
           done
-          cat "${config_file}"
         volumeMounts:
         - name: prometheus-global
           mountPath: /prometheus/config-in/global
@@ -56,6 +55,8 @@ spec:
         - name: config
           mountPath: /prometheus/config
       volumes:
+      - name: config
+        projected: null
       - name: prometheus-global
         projected:
           sources:
