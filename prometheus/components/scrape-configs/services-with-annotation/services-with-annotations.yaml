@@ -1,3 +1,4 @@
+scrape_configs:
 # The relabeling allows the actual service scrape endpoint to be configured
 # for all or only some endpoints.
 - job_name: 'kubernetes-service-endpoints'
